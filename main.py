@@ -5,6 +5,8 @@ from goose import Goose
 from goose.text import StopWordsChinese
 import sys
 
+import jieba
+
 base_url = 'https://www.hk01.com/%E5%85%A9%E5%B2%B8/'
 
 def main(argv):
@@ -29,8 +31,9 @@ def main(argv):
             article = g.extract(url=url)    
             cxt = u''.join(article.cleaned_text[:])
             cxt = cxt.replace('\n', ' ').replace('\r', '')
+            cxt = jieba.cut(cxt, cut_all=False)
             #print(cxt)
-            f.write(cxt.encode('utf-8').strip())
+            f.write(u' '.join(cxt).encode('utf-8').strip())
             f.write('\n')
 
 
